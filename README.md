@@ -11,6 +11,18 @@ Make sure you have a [current version of Node.js](https://nodejs.org/en/about/re
 
 Read about other [prerequisites](https://ethereum.org/en/developers/docs/evm/) in our docs.
 
+## Dev Testing
+
+To test the tool on the local dev:
+
+    yarn install && yarn start
+
+To install the tool globally on the local dev:
+
+    yarn install -g
+
+Then, the `create-evm-app` binary will available with `npx` command.
+
 ## Getting Started
 
 To create a new EVM fullstack dapp run this and follow interactive prompts:
