@@ -1,0 +1,13 @@
+# directories
+**/dist
+**/node_modules
+**/types
+**/templates
+**/docs
+
+# files
+*.env
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

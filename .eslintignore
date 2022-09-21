@@ -1,0 +1,12 @@
+# directories
+**/dist
+**/node_modules
+**/templates
+
+# files
+*.env
+*.log
+jest.config.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

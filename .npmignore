@@ -1,0 +1,3 @@
+templates/contracts/**/cache
+templates/contracts/hardhat/artifacts
+templates/contracts/foundry/out

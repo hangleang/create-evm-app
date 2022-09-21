@@ -1,0 +1,12 @@
+[submodule "templates/contracts/hardhat"]
+	path = templates/contracts/hardhat
+	url = git@github.com:hangleang/hardhat-template.git
+[submodule "templates/contracts/foundry"]
+	path = templates/contracts/foundry
+	url = git@github.com:hangleang/foundry-template.git
+[submodule "templates/frontend/nextjs"]
+	path = templates/frontend/nextjs
+	url = git@github.com:iamcombo/next-dapp-starter.git
+[submodule "templates/frontend/vite"]
+	path = templates/frontend/vite
+	url = git@github.com:e-roy/vite-react-chakra-wagmi.git
