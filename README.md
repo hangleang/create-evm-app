@@ -19,7 +19,7 @@ To test the tool on the local dev:
 
 To install the tool globally on the local dev:
 
-    yarn install -g
+    npm i -g
 
 Then, the `create-evm-app` binary will available with `npx` command.
 
