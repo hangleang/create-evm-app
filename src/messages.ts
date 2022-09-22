@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { Contract, Frontend, ProjectName } from "./types";
+import { Contract, CONTRACTS_DISPLAY, Frontend, FRONTENDS_DISPLAY, ProjectName } from "./types";
 
 export const messages = (...args: unknown[]) => console.log(...args);
 
@@ -17,9 +17,9 @@ Notice: some platforms aren't supported (yet).
 {bold {red ==========================================}}`);
 
 export const successContractToText = (contract: Contract) =>
-  contract === "none" ? "" : chalk`with a smart contract in {bold ${contract === "hardhat" ? "Hardhat" : "Foundry"}}`;
+  contract === "none" ? "" : chalk`with smart contract in {bold ${CONTRACTS_DISPLAY[contract]}}`;
 export const successFrontendToText = (frontend: Frontend) =>
-  frontend === "none" ? "" : chalk`and a frontend framework in {bold ${frontend === "nextjs" ? "NextJS" : "Vite"}}`;
+  frontend === "none" ? "" : chalk`and frontend in {bold ${FRONTENDS_DISPLAY[frontend]}}`;
 export const setupSuccess = (projectName: ProjectName, contract: Contract, frontend: Frontend, install: boolean) =>
   messages(chalk`
 {green ======================================================}
@@ -39,7 +39,7 @@ ${
          {blue yarn {bold install}}`
        : "Then:"
    }
-   - {inverse Test your contract} in ${contract === "hardhat" ? "Hardhat" : "Foundry"} Sandbox:
+   - {inverse Test your contract} in ${CONTRACTS_DISPLAY[contract]} Sandbox:
          {blue yarn {bold test}}
    - {inverse Deploy your contract} to local network:
          {blue yarn {bold deploy}}

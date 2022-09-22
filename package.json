@@ -13,12 +13,14 @@
   "bin": "index.js",
   "packageManager": "yarn@3.2.1",
   "scripts": {
+    "commit": "git-cz",
     "start": "yarn build && node index.js",
     "build": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "release": "yarn build && release-it",
-    "prepack": "yarn build"
+    "prepack": "yarn build",
+    "postinstall": "husky install"
   },
   "keywords": [
     "scaffold",
@@ -51,7 +53,6 @@
     "@commitlint/config-conventional": "^17.0.0",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/cross-spawn": "^6.0.2",
-    "@types/jest": "^28.1.6",
     "@types/ncp": "^2.0.5",
     "@types/node": "^18.6.1",
     "@types/prompts": "^2.0.14",
@@ -68,7 +69,6 @@
     "node-dir": "^0.1.17",
     "prettier": "^2.7.1",
     "release-it": "^15.0.0",
-    "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"
   }
 }

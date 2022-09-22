@@ -1,7 +1,6 @@
 env:
   es6: true
   node: true
-  jest: true
 extends:
   - eslint:recommended
   - "plugin:@typescript-eslint/eslint-recommended"
@@ -9,8 +8,6 @@ extends:
   - "prettier"
 parser: "@typescript-eslint/parser"
 parserOptions:
-  ecmaVersion: 2018
-  sourceType: module
   project: "tsconfig.json"
 plugins:
   - "@typescript-eslint"

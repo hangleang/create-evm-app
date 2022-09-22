@@ -25,6 +25,7 @@ function basePackage({ contract, frontend, subgraph, projectName }: PackageBuild
     version: "1.0.0",
     license: "MIT",
     private: true,
+    packageManager: "yarn@3.2.1",
     scripts: {
       ...devScript(hasFrontend),
       ...buildScript(hasFrontend),
