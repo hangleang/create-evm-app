@@ -29,7 +29,7 @@ export async function createProject({
 // TODO: extract subgraph
 export async function createFiles({ contract, frontend, projectPath, verbose, rootDir }: CreateProjectParams) {
   // skip build artifacts and symlinks
-  const skip = ["artifacts", "build", "cache", "dist", "out", "node_modules", ".git"];
+  const skip = ["artifacts", "build", "cache", "dist", "out", "node_modules"];
 
   // shared files
   const sourceSharedDir = path.resolve(rootDir, "shared");

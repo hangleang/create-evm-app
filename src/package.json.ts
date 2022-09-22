@@ -28,11 +28,15 @@ function basePackage({ contract, frontend, subgraph, projectName }: PackageBuild
     packageManager: "yarn@3.2.1",
     scripts: {
       ...devScript(hasFrontend),
+      ...devContractScript(contract),
       ...buildScript(hasFrontend),
       ...buildContractScript(contract),
       ...deployScript(contract),
       ...unitTestScripts(contract),
       ...installScript(contract, hasFrontend, hasSubgraph),
+    },
+    devDependencies: {
+      concurrently: "^7.4.0",
     },
     dependencies: {},
   };
@@ -41,7 +45,17 @@ function basePackage({ contract, frontend, subgraph, projectName }: PackageBuild
 const devScript = (hasFrontend: boolean): Entries =>
   hasFrontend
     ? {
-        dev: `cd frontend && yarn run dev`,
+        dev: `concurrently "yarn run dev:contract" "yarn run dev:frontend"`,
+        "dev:frontend": `cd frontend && yarn run dev`,
+      }
+    : {
+        dev: `yarn run dev:contract`,
+      };
+
+const devContractScript = (contract: Contract): Entries =>
+  contract !== "none"
+    ? {
+        "dev:contract": `cd contract && yarn run dev`,
       }
     : {};
 
@@ -78,7 +92,9 @@ const unitTestScripts = (contract: Contract): Entries =>
 
 const installScript = (contract: Contract, hasFrontend: boolean, hasSubgraph: boolean): Entries => {
   const install_cmd = (dir: string, exist: boolean): string =>
-    exist ? `cd ${dir} ${dir === "contract" ? "&& git init" : ""} && yarn install && cd ..` : `echo no ${dir}`;
+    exist
+      ? `cd ${dir} && rm -rf .git ${dir === "contract" ? "&& git init" : ""} && yarn install && cd ..`
+      : `echo no ${dir}`;
 
   return {
     postinstall: `${install_cmd("contract", contract !== "none")} && ${install_cmd(
