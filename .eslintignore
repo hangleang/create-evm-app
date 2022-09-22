@@ -4,6 +4,7 @@
 **/templates
 
 # files
+index.js
 *.env
 *.log
 jest.config.js
