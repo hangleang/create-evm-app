@@ -2,11 +2,13 @@
 **/dist
 **/node_modules
 **/templates
+**/test
 
 # files
 index.js
 *.env
 *.log
+jest.config.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

@@ -16,6 +16,7 @@
     "commit": "git-cz",
     "start": "yarn build && node index.js",
     "build": "tsc",
+    "test": "yarn build && jest --runInBand",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "release": "yarn build && release-it",
@@ -53,8 +54,10 @@
     "@commitlint/config-conventional": "^17.0.0",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/cross-spawn": "^6.0.2",
+    "@types/jest": "^29.0.3",
     "@types/ncp": "^2.0.5",
     "@types/node": "^18.6.1",
+    "@types/node-dir": "^0.0.34",
     "@types/prompts": "^2.0.14",
     "@types/semver": "^7.3.10",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
@@ -65,10 +68,12 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "husky": "^8.0.1",
+    "jest": "^28.0.7",
     "lint-staged": "^13.0.3",
     "node-dir": "^0.1.17",
     "prettier": "^2.7.1",
     "release-it": "^15.0.0",
+    "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"
   }
 }
