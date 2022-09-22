@@ -48,7 +48,7 @@ export function validateUserInput(args: UserConfig): "error" | "ok" | "none" {
 type Options<T> = { title: string; value: T }[];
 const contractOptions: Options<Contract> = [
   { title: "Hardhat", value: "hardhat" },
-  { title: "Foundry - Under Testing", value: "foundry" },
+  { title: "Foundry - Under Develop", value: "foundry" },
   { title: "No contracts", value: "none" },
 ];
 const frontendOptions: Options<Frontend> = [
@@ -71,7 +71,7 @@ const userPrompts: PromptObject[] = [
   {
     type: prev => (prev !== "none" ? "select" : null),
     name: "subgraph",
-    message: "Select whether you use subgraph or not",
+    message: "Select whether you use subgraph or not (TBD)",
     choices: subgraphOptions,
   },
   {

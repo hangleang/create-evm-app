@@ -4,9 +4,9 @@
 **/templates
 
 # files
+index.js
 *.env
 *.log
-jest.config.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

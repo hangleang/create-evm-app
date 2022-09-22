@@ -1,7 +1,20 @@
+export type Display<T extends string | number | symbol> = {
+  [key in T]: string;
+};
 export type Contract = "hardhat" | "foundry" | "none";
 export const CONTRACTS: Contract[] = ["hardhat", "foundry", "none"];
+export const CONTRACTS_DISPLAY: Display<Contract> = {
+  hardhat: "Hardhat",
+  foundry: "Foundry",
+  none: "",
+};
 export type Frontend = "nextjs" | "vite" | "none";
 export const FRONTENDS: Frontend[] = ["nextjs", "vite", "none"];
+export const FRONTENDS_DISPLAY: Display<Frontend> = {
+  nextjs: "NextJs",
+  vite: "Vite",
+  none: "",
+};
 export type Subgraph = "the-graph" | "none";
 export const SUBGRAPHS: Subgraph[] = ["the-graph", "none"];
 export type StandardContracts = "openzeppelin" | "solmate" | "none";
