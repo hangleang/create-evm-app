@@ -1,6 +1,6 @@
 {
   "name": "create-evm-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Features-rich scaffold fullstack dApp on EVM-based Blockchains",
   "main": "index.js",
   "engines": {
