@@ -25,7 +25,6 @@ function basePackage({ contract, frontend, subgraph, projectName }: PackageBuild
     version: "1.0.0",
     license: "MIT",
     private: true,
-    packageManager: "yarn@3.2.1",
     scripts: {
       ...devScript(hasFrontend),
       ...devContractScript(contract),
@@ -45,7 +44,7 @@ function basePackage({ contract, frontend, subgraph, projectName }: PackageBuild
 const devScript = (hasFrontend: boolean): Entries =>
   hasFrontend
     ? {
-        dev: `concurrently "yarn run dev:contract" "yarn run dev:frontend"`,
+        dev: `concurrently --kill-others "yarn run dev:contract" "yarn run dev:frontend"`,
         "dev:frontend": `cd frontend && yarn run dev`,
       }
     : {

@@ -69,7 +69,7 @@ const userPrompts: PromptObject[] = [
     choices: contractOptions,
   },
   {
-    type: prev => (prev !== "none" ? "select" : null),
+    type: "select",
     name: "subgraph",
     message: "Select whether you use subgraph or not (TBD)",
     choices: subgraphOptions,
