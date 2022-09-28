@@ -61,7 +61,6 @@
     "@types/semver": "^7.3.10",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
-    "@yarnpkg/plugin-dlx": "^4.0.0-rc.21",
     "commitizen": "^4.2.5",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.20.0",
