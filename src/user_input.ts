@@ -70,15 +70,15 @@ const userPrompts: PromptObject[] = [
   },
   {
     type: "select",
-    name: "subgraph",
-    message: "Select whether you use subgraph or not (TBD)",
-    choices: subgraphOptions,
-  },
-  {
-    type: "select",
     name: "frontend",
     message: "Select your frontend framework",
     choices: frontendOptions,
+  },
+  {
+    type: "select",
+    name: "subgraph",
+    message: "Select your subgraph tool (TBD)",
+    choices: subgraphOptions,
   },
   {
     type: "text",
