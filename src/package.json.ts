@@ -25,6 +25,7 @@ function basePackage({ contract, frontend, subgraph, projectName }: PackageBuild
     version: "1.0.0",
     license: "MIT",
     private: true,
+    packageManager: "yarn@1.22.19",
     scripts: {
       ...devScript(hasFrontend),
       ...devContractScript(contract),
@@ -91,9 +92,7 @@ const unitTestScripts = (contract: Contract): Entries =>
 
 const installScript = (contract: Contract, hasFrontend: boolean, hasSubgraph: boolean): Entries => {
   const install_cmd = (dir: string, exist: boolean): string =>
-    exist
-      ? `cd ${dir} && rm -rf .git ${dir === "contract" ? "&& git init" : ""} && yarn install && cd ..`
-      : `echo no ${dir}`;
+    exist ? `cd ${dir} && rm -rf .git && yarn install && cd ..` : `echo no ${dir}`;
 
   return {
     postinstall: `${install_cmd("contract", contract !== "none")} && ${install_cmd(

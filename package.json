@@ -11,6 +11,7 @@
     "dist/**/*.js"
   ],
   "bin": "index.js",
+  "packageManager": "yarn@3.2.3",
   "scripts": {
     "commit": "git-cz",
     "start": "yarn build && node index.js",
@@ -73,6 +74,6 @@
     "prettier": "^2.7.1",
     "release-it": "^15.0.0",
     "ts-jest": "^28.0.7",
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.4"
   }
 }
