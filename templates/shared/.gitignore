@@ -10,7 +10,6 @@
 # production
 **/build
 **/dist
-_testrun
 
 # yarn
 .yarn/*

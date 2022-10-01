@@ -1,5 +1,5 @@
 import path from "path";
-import { createProject, installDeps } from "./actions";
+import { createProject, initializeGit, installDeps } from "./actions";
 import { promptAndGetConfig } from "./user_input";
 import * as messages from "./messages";
 
@@ -26,6 +26,8 @@ import * as messages from "./messages";
       rootDir: path.resolve(__dirname, "../templates"),
       projectPath,
     });
+
+    await initializeGit(projectPath);
   } catch (e) {
     console.error(e);
     createSuccess = false;

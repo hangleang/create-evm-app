@@ -25,20 +25,31 @@ function basePackage({ contract, frontend, subgraph, projectName }: PackageBuild
     version: "1.0.0",
     license: "MIT",
     private: true,
-    packageManager: "yarn@1.22.19",
+    packageManager: "yarn@3.2.3",
     scripts: {
+      commit: "git-cz",
       ...devScript(hasFrontend),
       ...devContractScript(contract),
       ...buildScript(hasFrontend),
       ...buildContractScript(contract),
       ...deployScript(contract),
       ...unitTestScripts(contract),
+      release: "yarn build && release-it",
+      prepack: "yarn build",
       ...installScript(contract, hasFrontend, hasSubgraph),
     },
     devDependencies: {
+      "@commitlint/cli": "^17.0.1",
+      "@commitlint/config-conventional": "^17.0.0",
+      "@release-it/conventional-changelog": "^5.0.0",
+      commitizen: "^4.2.5",
       concurrently: "^7.4.0",
+      "cz-conventional-changelog": "^3.3.0",
+      husky: "^8.0.1",
+      "lint-staged": "^13.0.3",
+      prettier: "^2.7.1",
+      "release-it": "^15.0.0",
     },
-    dependencies: {},
   };
 }
 
@@ -92,10 +103,10 @@ const unitTestScripts = (contract: Contract): Entries =>
 
 const installScript = (contract: Contract, hasFrontend: boolean, hasSubgraph: boolean): Entries => {
   const install_cmd = (dir: string, exist: boolean): string =>
-    exist ? `cd ${dir} && rm -rf .git && yarn install && cd ..` : `echo no ${dir}`;
+    exist ? `cd ${dir} && rm -rf .git && yarn install --ignore-scripts && cd ..` : `echo no ${dir}`;
 
   return {
-    postinstall: `${install_cmd("contract", contract !== "none")} && ${install_cmd(
+    postinstall: `husky install && ${install_cmd("contract", contract !== "none")} && ${install_cmd(
       "subgraph",
       hasSubgraph,
     )} && ${install_cmd("frontend", hasFrontend)}`,

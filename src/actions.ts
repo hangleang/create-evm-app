@@ -90,6 +90,24 @@ export function copyDir(source: string, dest: string, { skip, verbose }: { skip:
   });
 }
 
+export async function initializeGit(projectPath: string) {
+  messages.depsInstall();
+  const commandArgs = ["init"];
+  await new Promise<void>((resolve, reject) =>
+    spawn("git", commandArgs, {
+      cwd: projectPath,
+      stdio: "ignore",
+    }).on("close", (code: number) => {
+      if (code !== 0) {
+        messages.depsInstallError();
+        reject(code);
+      } else {
+        resolve();
+      }
+    }),
+  );
+}
+
 export async function installDeps(projectPath: string) {
   messages.depsInstall();
   const commandArgs = ["install"];
