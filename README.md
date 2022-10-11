@@ -15,7 +15,7 @@ Read about other [prerequisites](https://ethereum.org/en/developers/docs/evm/) i
 
 To test the tool on the local dev:
 
-    yarn install && yarn start
+    pnpm install && pnpm start
 
 To install the tool globally on the local dev:
 
@@ -98,7 +98,7 @@ If you want to deploy a new version, you will need two prerequisites:
 
 Then run one script:
 
-    yarn release
+    pnpm release
 
 Or just `release-it`
 

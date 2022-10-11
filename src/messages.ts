@@ -36,17 +36,17 @@ ${
    ${
      !install
        ? chalk`- {inverse Install all dependencies}
-         {blue yarn {bold install}}`
+         {blue pnpm {bold install}}`
        : "Then:"
    }
    - {inverse Test your contract} in ${CONTRACTS_DISPLAY[contract]} Sandbox:
-         {blue yarn {bold test}}
+         {blue pnpm {bold test}}
    - {inverse Deploy your contract} to local network:
-         {blue yarn {bold deploy}}
+         {blue pnpm {bold deploy}}
    ${
      frontend !== "none"
        ? chalk`- {inverse Start your frontend}:
-         {blue yarn {bold dev}}\n`
+         {blue pnpm {bold dev}}\n`
        : ""
    }
 🧠 Read {bold {greenBright README.md}} to explore further.`);

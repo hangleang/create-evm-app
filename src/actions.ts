@@ -5,6 +5,7 @@ import fs from "fs";
 import { ncp } from "ncp";
 import path from "path";
 import { buildPackageJson } from "./package.json";
+import { buildWorkspace } from "./pnpm-workspace.yaml";
 
 export async function createProject({
   contract,
@@ -23,13 +24,17 @@ export async function createProject({
   const packageJson = buildPackageJson({ contract, frontend, subgraph, projectName });
   fs.writeFileSync(path.resolve(projectPath, "package.json"), Buffer.from(JSON.stringify(packageJson, null, 2)));
 
+  // Create pnpm-workspace.yaml
+  const workspaceYaml = buildWorkspace({ contract, frontend, subgraph });
+  fs.writeFileSync(path.resolve(projectPath, "pnpm-workspace.yaml"), Buffer.from(workspaceYaml));
+
   return true;
 }
 
 // TODO: extract subgraph
 export async function createFiles({ contract, frontend, projectPath, verbose, rootDir }: CreateProjectParams) {
   // skip build artifacts and symlinks
-  const skip = ["artifacts", "build", "cache", "dist", "out", "node_modules"];
+  const skip = ["artifacts", "build", "cache", "dist", "out", "node_modules", ".git"];
 
   // shared files
   const sourceSharedDir = path.resolve(rootDir, "shared");
@@ -110,9 +115,9 @@ export async function initializeGit(projectPath: string) {
 
 export async function installDeps(projectPath: string) {
   messages.depsInstall();
-  const commandArgs = ["install"];
+  const commandArgs = ["i"];
   await new Promise<void>((resolve, reject) =>
-    spawn("yarn", commandArgs, {
+    spawn("pnpm", commandArgs, {
       cwd: projectPath,
       stdio: "inherit",
     }).on("close", (code: number) => {
