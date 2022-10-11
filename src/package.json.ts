@@ -1,4 +1,4 @@
-import { Contract, CreateProjectParams } from "./types";
+import { Contract, CreateProjectParams, Subgraph } from "./types";
 
 type Entries = Record<string, unknown>;
 type PackageBuildParams = Pick<CreateProjectParams, "contract" | "frontend" | "subgraph" | "projectName">;
@@ -13,19 +13,17 @@ export function buildPackageJson({ contract, frontend, subgraph, projectName }: 
   return result;
 }
 
-// const runWs = "yarn workspaces foreach"; // npm -ws or pnpm -r
-// const runW = "yarn --cwd"; // npm -w or pnpm --filter
+// const runWs = "pnpm -r"; // npm -ws or pnpm -r
+// const runW = "pnpm --filter"; // npm -w or pnpm --filter
 
 function basePackage({ contract, frontend, subgraph, projectName }: PackageBuildParams): Entries {
   const hasFrontend = frontend !== "none";
-  const hasSubgraph = subgraph !== "none";
 
   return {
     name: projectName,
     version: "1.0.0",
     license: "MIT",
     private: true,
-    packageManager: "yarn@3.2.3",
     scripts: {
       commit: "git-cz",
       ...devScript(hasFrontend),
@@ -34,13 +32,15 @@ function basePackage({ contract, frontend, subgraph, projectName }: PackageBuild
       ...buildContractScript(contract),
       ...deployScript(contract),
       ...unitTestScripts(contract),
-      release: "yarn build && release-it",
-      prepack: "yarn build",
-      ...installScript(contract, hasFrontend, hasSubgraph),
+      ...buildSubgraphInitScript(subgraph),
+      release: "pnpm build && release-it",
+      prepack: "pnpm build",
+      postinstall: `husky install`,
     },
     devDependencies: {
       "@commitlint/cli": "^17.0.1",
       "@commitlint/config-conventional": "^17.0.0",
+      ...buildSubgraphDeps(subgraph),
       "@release-it/conventional-changelog": "^5.0.0",
       commitizen: "^4.2.5",
       concurrently: "^7.4.0",
@@ -56,54 +56,54 @@ function basePackage({ contract, frontend, subgraph, projectName }: PackageBuild
 const devScript = (hasFrontend: boolean): Entries =>
   hasFrontend
     ? {
-        dev: `concurrently --kill-others "yarn run dev:contract" "yarn run dev:frontend"`,
-        "dev:frontend": `cd frontend && yarn run dev`,
+        dev: `concurrently -k "pnpm dev:contract" "pnpm dev:frontend"`,
+        "dev:frontend": `cd frontend && pnpm dev`,
       }
     : {
-        dev: `yarn run dev:contract`,
+        dev: `pnpm dev:contract`,
       };
 
 const devContractScript = (contract: Contract): Entries =>
   contract !== "none"
     ? {
-        "dev:contract": `cd contract && yarn run dev`,
+        "dev:contract": `cd contract && pnpm dev`,
       }
     : {};
 
 const buildScript = (hasFrontend: boolean): Entries =>
   hasFrontend
     ? {
-        build: `yarn run build:contract && yarn run build:frontend`,
-        "build:frontend": `cd frontend && yarn run build`,
+        build: `pnpm build:contract && pnpm build:frontend`,
+        "build:frontend": `cd frontend && pnpm build`,
       }
     : {
-        build: `yarn run build:contract`,
+        build: `pnpm build:contract`,
       };
 
 const buildContractScript = (contract: Contract): Entries =>
   contract !== "none"
     ? {
-        "build:contract": `cd contract && yarn run build`,
+        "build:contract": `cd contract && pnpm build`,
       }
     : {};
 
 const deployScript = (contract: Contract): Entries =>
   contract !== "none"
     ? {
-        deploy: `cd contract && yarn run deploy`,
+        deploy: `cd contract && pnpm deploy`,
       }
     : {};
 
 const unitTestScripts = (contract: Contract): Entries =>
   contract !== "none"
     ? {
-        test: `cd contract && yarn run test`,
+        test: `cd contract && pnpm test`,
       }
     : {};
 
-const installScript = (contract: Contract, hasFrontend: boolean, hasSubgraph: boolean): Entries => {
+const _installScript = (contract: Contract, hasFrontend: boolean, hasSubgraph: boolean): Entries => {
   const install_cmd = (dir: string, exist: boolean): string =>
-    exist ? `cd ${dir} && rm -rf .git && yarn install --ignore-scripts && cd ..` : `echo no ${dir}`;
+    exist ? `cd ${dir} && rm -rf .git && pnpm install --ignore-scripts && cd ..` : `echo no ${dir}`;
 
   return {
     postinstall: `husky install && ${install_cmd("contract", contract !== "none")} && ${install_cmd(
@@ -111,4 +111,20 @@ const installScript = (contract: Contract, hasFrontend: boolean, hasSubgraph: bo
       hasSubgraph,
     )} && ${install_cmd("frontend", hasFrontend)}`,
   };
+};
+
+const buildSubgraphDeps = (subgraph: Subgraph): Entries => {
+  return subgraph !== "none"
+    ? {
+        "@graphprotocol/graph-cli": "^0.35.0",
+      }
+    : {};
+};
+
+const buildSubgraphInitScript = (subgraph: Subgraph): Entries => {
+  return subgraph !== "none"
+    ? {
+        "subgraph:init": "graph init --studio subgraph",
+      }
+    : {};
 };

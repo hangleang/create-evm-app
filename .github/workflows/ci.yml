@@ -18,14 +18,14 @@ jobs:
       - name: "Install Node.js"
         uses: "actions/setup-node@v3"
         with:
-          cache: "yarn"
+          cache: "pnpm"
           node-version: "16"
 
       - name: "Install the dependencies"
-        run: "yarn install --immutable"
+        run: "pnpm install --frozen-lockfile"
 
       - name: "Lint the code"
-        run: "yarn lint"
+        run: "pnpm lint"
 
       - name: "Add lint summary"
         run: |

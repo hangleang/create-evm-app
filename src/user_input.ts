@@ -89,7 +89,7 @@ const userPrompts: PromptObject[] = [
   {
     type: "confirm",
     name: "install",
-    message: chalk`Run {bold {blue 'yarn install'}} now?`,
+    message: chalk`Run {bold {blue 'pnpm install'}} now?`,
     initial: true,
   },
 ];

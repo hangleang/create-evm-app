@@ -12,14 +12,6 @@
 **/dist
 _testrun
 
-# yarn
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-
 # misc
 .DS_Store
 .env.local
@@ -28,5 +20,3 @@ _testrun
 .env.production.local
 .idea
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
