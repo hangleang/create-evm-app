@@ -6,6 +6,7 @@ import { ncp } from "ncp";
 import path from "path";
 import { buildPackageJson } from "./package.json";
 import { buildWorkspace } from "./pnpm-workspace.yaml";
+import rmdir from "rimraf";
 
 export async function createProject({
   contract,
@@ -17,7 +18,6 @@ export async function createProject({
   rootDir,
 }: CreateProjectParams): Promise<boolean> {
   // Create files in the project folder
-  // TODO: create subgraph dir
   await createFiles({ contract, frontend, subgraph, projectName, projectPath, verbose, rootDir });
 
   // Create package.json
@@ -34,11 +34,11 @@ export async function createProject({
 // TODO: extract subgraph
 export async function createFiles({ contract, frontend, projectPath, verbose, rootDir }: CreateProjectParams) {
   // skip build artifacts and symlinks
-  const skip = ["artifacts", "build", "cache", "dist", "out", "node_modules", ".git"];
+  const skip = ["artifacts", "build", "cache", "dist", "out", "node_modules"];
 
   // shared files
   const sourceSharedDir = path.resolve(rootDir, "shared");
-  await copyDir(sourceSharedDir, projectPath, { verbose, skip: skip.map(f => path.join(sourceSharedDir, f)) });
+  await copyDir(sourceSharedDir, projectPath, { verbose, skip: [] });
 
   // copy contract files
   const sourceContractDir = path.resolve(rootDir, "contracts", contract);
@@ -47,6 +47,11 @@ export async function createFiles({ contract, frontend, projectPath, verbose, ro
   await copyDir(sourceContractDir, targetContractDir, {
     verbose,
     skip: skip.map(f => path.join(sourceContractDir, f)),
+  });
+  rmdir(path.resolve(targetContractDir, ".git"), err => {
+    if (err) {
+      messages.customError(err.message);
+    }
   });
 
   // copy frontend
@@ -58,9 +63,12 @@ export async function createFiles({ contract, frontend, projectPath, verbose, ro
       verbose,
       skip: skip.map(f => path.join(sourceFrontendDir, f)),
     });
+    rmdir(path.resolve(targetContractDir, ".git"), err => {
+      if (err) {
+        messages.customError(err.message);
+      }
+    });
   }
-
-  // TODO: generate subgraph dir from contract ABI
 }
 
 // Wrap `ncp` tool to wait for the copy to finish when using `await`
@@ -96,7 +104,7 @@ export function copyDir(source: string, dest: string, { skip, verbose }: { skip:
 }
 
 export async function initializeGit(projectPath: string) {
-  messages.depsInstall();
+  messages.initGit();
   const commandArgs = ["init"];
   await new Promise<void>((resolve, reject) =>
     spawn("git", commandArgs, {
@@ -104,7 +112,7 @@ export async function initializeGit(projectPath: string) {
       stdio: "ignore",
     }).on("close", (code: number) => {
       if (code !== 0) {
-        messages.depsInstallError();
+        messages.initGitError();
         reject(code);
       } else {
         resolve();

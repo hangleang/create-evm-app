@@ -74,3 +74,12 @@ export const depsInstall = () =>
 `);
 
 export const depsInstallError = () => messages(chalk.red("Error installing dependencies"));
+
+export const initGit = () =>
+  messages(chalk`
+{blue Initialized Git Repository}
+`);
+
+export const initGitError = () => messages(chalk.red("Error initialize git"));
+
+export const customError = (err: string) => messages(chalk.red(`${err}`));
